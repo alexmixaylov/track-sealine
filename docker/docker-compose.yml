@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  lunch_php:
+    container_name: lunch_php
+    build:
+      context: ./php-fpm
+    environment:
+      XDEBUG_CONFIG: "client_host=172.17.0.1"
+      PHP_IDE_CONFIG: "serverName=Docker"
+    volumes:
+      - ../:/var/www
+    user: ${DOCKER_USER}
+
+  lunch_nginx:
+    container_name: lunch_nginx
+    build:
+      context: ./nginx
+    volumes:
+      - ../:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+      - lunch_php
+    ports:
+      - "80:80"
+
+  lunch_mysql:
+    container_name: lunch_mysql
+    image: 'mysql:8.0'
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'lunch'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+    volumes:
+      - 'lunch_mysql:/var/lib/mysql'
+
+volumes:
+  lunch_mysql:
