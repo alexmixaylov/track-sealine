@@ -3,7 +3,7 @@
 
 namespace App\Modules\Common\Dto;
 
-class CarrierDto
+class ProviderDto
 {
     private string $provider;
     private string $containerNumber;
