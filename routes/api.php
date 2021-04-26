@@ -1,5 +1,7 @@
 <?php
 
+use App\Modules\Common\Dto\ProviderDto;
+use App\Modules\Common\ProviderHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/track', function (Request $request) {
-   return response($request->post('container'))->header('Content-Type', 'text/json');
+
+    $provider = new ProviderDto($request->get('provider'), $request->post('container'));
+
+    $handler = new ProviderHandler($provider);
+
+    return response($handler->handle())->header('Content-Type', 'text/json');
 });

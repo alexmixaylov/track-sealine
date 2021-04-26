@@ -3,13 +3,14 @@
 
 namespace App\Modules\Common;
 
+
 use App\Modules\Common\Dto\ResponseDto;
 use App\Modules\Common\Resolver\ResolverFactory;
-use Exception;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use function explode;
 
-abstract class AbstractProvider
+abstract class AbstractHandler
 {
     private Client $httpClient;
 
@@ -17,6 +18,8 @@ abstract class AbstractProvider
     {
         $this->httpClient = $httpClient;
     }
+
+    abstract public function getUrl(string $container): string;
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -47,12 +50,14 @@ abstract class AbstractProvider
     private function responseHandler(ResponseInterface $response): ResponseDto
     {
         if ($response->getStatusCode() !== 200) {
-            throw new Exception('Handler Error');
+            throw new \Exception('Handler Error');
         }
 
-        $resolver = ResolverFactory::createResolver((string)$response->getHeader('Content-Type'));
+        $content     = $response->getBody()->getContents();
+        $contentType = $response->getHeaders()['Content-Type'][0] ?? 'application/json';
 
-        return $resolver->resolveResult($response->getBody());
+        $resolver = ResolverFactory::createResolver(explode(';',$contentType)[0]);
+
+        return $resolver->resolveResult($content);
     }
-
 }
