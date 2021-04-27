@@ -14,6 +14,7 @@ class TrackController extends Controller
      * @param \Illuminate\Http\Response $response
      *
      * @return Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function track(Request $request, Response $response): Response
     {
