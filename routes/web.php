@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+// это зачем?
+// упс, прозевал не удалил
 Route::get('/test200', function () {
     return 200;
 });

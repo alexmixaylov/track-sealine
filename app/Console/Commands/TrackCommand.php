@@ -41,8 +41,8 @@ class TrackCommand extends Command
     public function handle(TrackController $track_controller, Request $request)
     {
 
-        $request->post();
-        $track_controller->track()
+//        $request->post();
+//        $track_controller->track()
         return 0;
     }
 }

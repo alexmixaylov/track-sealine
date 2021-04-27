@@ -19,13 +19,13 @@ abstract class AbstractHandler
         $this->httpClient = $httpClient;
     }
 
-    abstract public function getUrl(string $container): string;
+    abstract public function makeUrl(string $container): string;
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
      */
-    public function track(string $url): ResponseDto
+    public function track(string $url, string $responseType): ResponseDto
     {
         $response = $this->makeRequest($url);
 

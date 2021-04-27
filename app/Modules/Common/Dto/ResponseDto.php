@@ -29,14 +29,4 @@ class ResponseDto
             'date'      => $this->date
         ];
     }
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return json_encode($this->getData());
-    }
-
-
 }

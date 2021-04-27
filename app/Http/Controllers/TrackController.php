@@ -3,25 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Modules\Common\Dto\ProviderDto;
-use App\Modules\Common\ProviderHandler;
+use App\Modules\Common\HandlerFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use function response;
 
 class TrackController extends Controller
 {
+
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\Response $response
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function track(Request $request, Response $response): Response
+    public function track(Request $request): JsonResponse
     {
-        $provider = new ProviderDto($request->get('provider'), $request->post('container'));
+        // почему сначала $request->get потом $request->post ? вообще правильно $request->input
+        // да, это провал :)))
+        $providerData = new ProviderDto($request->input('provider'), $request->input('container'));
 
-        $handler = new ProviderHandler($provider);
+        $handler = new HandlerFactory($providerData);
 
-        return $response->setContent($handler->handle())->header('Content-Type', 'text/json');
+        $result = $handler->handle();
+        //https://laravel.com/docs/8.x/responses#json-responses
+        // response() не привык еще к этому
+        return response()->json($handler->handle());
     }
 }
