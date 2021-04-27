@@ -4,7 +4,6 @@
 namespace App\Modules\Msc;
 
 use App\Modules\Common\AbstractHandler;
-use App\Modules\Common\Dto\ResponseDto;
 use GuzzleHttp\Client;
 
 class Handler extends AbstractHandler
@@ -17,14 +16,16 @@ class Handler extends AbstractHandler
         parent::__construct(new Client());
     }
 
+    /**
+     * @return string
+     */
+    public function getResponseType(): string
+    {
+        return $this->responseType;
+    }
+
     public function makeUrl(string $container): string
     {
         return $this->publicApiBaseUrl . $container;
     }
-
-    public function track(string $container): ResponseDto
-    {
-        return parent::track($this->makeUrl($container));
-    }
-
 }

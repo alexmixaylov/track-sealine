@@ -19,12 +19,20 @@ class Handler extends AbstractHandler
         parent::__construct(new Client());
     }
 
+    /**
+     * @return string
+     */
+    public function getResponseType(): string
+    {
+        return $this->responseType;
+    }
+
     public function makeUrl(string $container): string
     {
         return $this->publicApiBaseUrl . $container;
     }
 
-    public function track(string $container): ResponseDto
+    public function track(string $container)
     {
         return parent::track($this->makeUrl($container));
     }

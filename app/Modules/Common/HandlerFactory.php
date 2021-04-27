@@ -11,26 +11,25 @@ use function mb_strtoupper;
 
 class HandlerFactory
 {
-
-    private ProviderDto $provider;
-    private AbstractHandler $handler;
+    private $handler;
 
     /**
      * @throws \Exception
      */
     public function __construct(ProviderDto $provider)
     {
-        $this->provider = $provider;
         $this->handler = $this->createHandler($provider->getProvider());
     }
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function handle(): Dto\ResponseDto
+    public function handle()
     {
-        // ВСЕ САДИТСЯ БАТАРЕЯ, позже доделаю
-        return $this->handler->track($this->provider->getContainer());
+//        $handler = $this->handler;
+//        return $this->track()
+//        // ВСЕ САДИТСЯ БАТАРЕЯ, позже доделаю
+//        return $this->handler->track($this->provider->getContainer(), $this->handler->get);
     }
 
 
