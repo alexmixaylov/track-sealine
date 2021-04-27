@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TrackController;
 use App\Modules\Common\Dto\ProviderDto;
 use App\Modules\Common\ProviderHandler;
 use Illuminate\Http\Request;
@@ -20,11 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/track', function (Request $request) {
-
-    $provider = new ProviderDto($request->get('provider'), $request->post('container'));
-
-    $handler = new ProviderHandler($provider);
-
-    return response($handler->handle())->header('Content-Type', 'text/json');
-});
+Route::post('/track', [TrackController::class, 'track']);
