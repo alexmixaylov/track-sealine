@@ -1,20 +1,20 @@
 <?php
 
-
-namespace App\Modules\Common\Resolver;
+namespace App\Modules\Resolver;
 
 use App\Modules\Common\Dto\ResponseDto;
-use function json_encode;
-use function parse_str;
-use function parse_url;
-use function simplexml_load_string;
+use App\Modules\Common\ResponseHandlerInterface;
+use Exception;
+use Illuminate\Http\Client\Response;
 
-class Xml extends ResolverFactory implements ResolverInterface
+class Xml implements ResponseHandlerInterface
 {
-
-    public function resolveResult($data): ResponseDto
+    /**
+     * @throws \Exception
+     */
+    public function resolveResult(Response $response): ResponseDto
     {
-        $normalized = $this->parseXml($data);
+        $normalized = $this->parseXml($response->body());
 
         try {
             $item = $normalized['channel']['item'][0];
@@ -24,11 +24,10 @@ class Xml extends ResolverFactory implements ResolverInterface
             parse_str($query, $output);
 
             return new ResponseDto($output['ContainerNumber'], $date);
-        } catch (\Exception $e) {
-            //TODO need to make error handler
-            return 'Информация о контейнере не найдена ';
+        } catch (Exception $e) {
+            //TODO need help
+            throw new Exception('Информация о контейнере не найдена ');
         }
-
     }
 
     private function parseXml(string $xml): array

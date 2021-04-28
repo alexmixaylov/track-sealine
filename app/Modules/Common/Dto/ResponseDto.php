@@ -1,11 +1,8 @@
 <?php
 
-
 namespace App\Modules\Common\Dto;
 
-
 use DateTimeImmutable;
-use function json_encode;
 
 class ResponseDto
 {
@@ -22,11 +19,30 @@ class ResponseDto
         $this->date      = $date->format('d M Y');
     }
 
+    /**
+     * @return string
+     */
+    private function getContainer(): string
+    {
+        return $this->container;
+    }
+
+    /**
+     * @return string
+     */
+    private function getDate(): string
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return array
+     */
     public function getData(): array
     {
         return [
-            'container' => $this->container,
-            'date'      => $this->date
+            'container' => $this->getContainer(),
+            'date'      => $this->getData()
         ];
     }
 }

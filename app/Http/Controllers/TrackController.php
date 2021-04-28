@@ -2,32 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Modules\Common\Dto\ProviderDto;
-use App\Modules\Common\HandlerFactory;
+use App\Modules\Common\ProviderHandlerFactory;
+use App\Modules\Common\ResponseHandlerFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use function response;
 
 class TrackController extends Controller
 {
-
     /**
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Exception
      */
     public function track(Request $request): JsonResponse
     {
-        // почему сначала $request->get потом $request->post ? вообще правильно $request->input
-        // да, это провал :)))
-        $providerData = new ProviderDto($request->input('provider'), $request->input('container'));
+        // получилась высокая связанность кода, думаю что нужно делать декомпозицию
+        // get data from client [providerName, containerNumber]
+        $providerName  = $request->input('provider');
+        $containerNumber = $request->input('container');
+        $responseType = $request->input('response-type');
 
-        $handler = new HandlerFactory($providerData);
+        // make handler for this  specific providerName
+        $providerHandler = ProviderHandlerFactory::createHandler($providerName);
 
-        $result = $handler->handle();
-        //https://laravel.com/docs/8.x/responses#json-responses
-        // response() не привык еще к этому
-        return response()->json($handler->handle());
+        // make request and get raw response from the providerName
+        $response = $providerHandler->trackContainer($containerNumber);
+
+        // resolve response with specific(content type) resolver
+        $responseResolver = ResponseHandlerFactory::createResolver($responseType);
+
+        $result = $responseResolver->resolveResult($response);
+        // Здесь никак не могу разобраться почему я не могу дернуть метод getData()
+        // вроде бы он публичный, странно как то
+        return response()->json($result->getData());
     }
 }
