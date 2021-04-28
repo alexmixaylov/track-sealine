@@ -2,8 +2,8 @@
 
 namespace App\Modules\Common;
 
-use App\Modules\Resolver\Json;
-use App\Modules\Resolver\Xml;
+use App\Modules\Resolver\JsonResolver;
+use App\Modules\Resolver\XmlResolver;
 use Exception;
 
 class  ResponseHandlerFactory
@@ -17,8 +17,8 @@ class  ResponseHandlerFactory
     public static function createResolver(string $contentType): ResponseHandlerInterface
     {
         return match ($contentType) {
-            'json' => new Json(),
-            'xml' => new Xml(),
+            'json' => new JsonResolver(),
+            'xml' => new XmlResolver(),
             default => throw new Exception("Undefined response format $contentType")
         };
     }

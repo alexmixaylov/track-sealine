@@ -230,4 +230,8 @@ return [
 
     ],
 
+    'sea_line_providers'=>[
+        'maersk'=>env('PUBLIC_API_PROVIDER_MAERSK'),
+        'msc'=>env('PUBLIC_API_PROVIDER_MSC')
+    ]
 ];

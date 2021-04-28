@@ -20,29 +20,13 @@ class ResponseDto
     }
 
     /**
-     * @return string
-     */
-    private function getContainer(): string
-    {
-        return $this->container;
-    }
-
-    /**
-     * @return string
-     */
-    private function getDate(): string
-    {
-        return $this->date;
-    }
-
-    /**
      * @return array
      */
     public function getData(): array
     {
         return [
-            'container' => $this->getContainer(),
-            'date'      => $this->getData()
+            'container' => $this->container,
+            'date'      => $this->date
         ];
     }
 }

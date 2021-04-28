@@ -15,7 +15,6 @@ class TrackController extends Controller
     public function track(Request $request): JsonResponse
     {
         // получилась высокая связанность кода, думаю что нужно делать декомпозицию
-        // get data from client [providerName, containerNumber]
         $providerName  = $request->input('provider');
         $containerNumber = $request->input('container');
         $responseType = $request->input('response-type');
@@ -29,9 +28,8 @@ class TrackController extends Controller
         // resolve response with specific(content type) resolver
         $responseResolver = ResponseHandlerFactory::createResolver($responseType);
 
-        $result = $responseResolver->resolveResult($response);
-        // Здесь никак не могу разобраться почему я не могу дернуть метод getData()
-        // вроде бы он публичный, странно как то
-        return response()->json($result->getData());
+        $responseDto = $responseResolver->resolveResult($response);
+
+        return response()->json($responseDto->getData());
     }
 }

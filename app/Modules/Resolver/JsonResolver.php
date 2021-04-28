@@ -7,7 +7,7 @@ use App\Modules\Common\ResponseHandlerInterface;
 use Exception;
 use Illuminate\Http\Client\Response;
 
-class Json implements ResponseHandlerInterface
+class JsonResolver implements ResponseHandlerInterface
 {
     /**
      * @param \Illuminate\Http\Client\Response $response

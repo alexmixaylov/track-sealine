@@ -7,7 +7,7 @@ use App\Modules\Common\ResponseHandlerInterface;
 use Exception;
 use Illuminate\Http\Client\Response;
 
-class Xml implements ResponseHandlerInterface
+class XmlResolver implements ResponseHandlerInterface
 {
     /**
      * @throws \Exception
