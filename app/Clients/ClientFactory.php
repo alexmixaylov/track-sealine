@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure;
+namespace App\Clients;
 
 use App\Clients\AbstractClient;
 use App\Clients\MaerskClient;
@@ -14,7 +14,7 @@ class ClientFactory
      *
      * @throws \Exception
      */
-    public static function createHandler(string $providerType): AbstractClient
+    public static function create(string $providerType): AbstractClient
     {
         return match ($providerType) {
             'msc' => new MscClient(),
