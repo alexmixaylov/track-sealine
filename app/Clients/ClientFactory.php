@@ -2,9 +2,6 @@
 
 namespace App\Clients;
 
-use App\Clients\AbstractClient;
-use App\Clients\MaerskClient;
-use App\Clients\MscClient;
 use Exception;
 
 class ClientFactory
@@ -12,6 +9,7 @@ class ClientFactory
     /**
      * @param string $providerType
      *
+     * @return \App\Clients\AbstractClient
      * @throws \Exception
      */
     public static function create(string $providerType): AbstractClient
