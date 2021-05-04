@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\Msc;
+namespace App\Clients\Msc;
 
-use App\Modules\Common\AbstractProviderHandler;
+use App\Modules\Infrastructure\AbstractProviderHandler;
 use Illuminate\Http\Client\Response;
 
-class ProviderHandler extends AbstractProviderHandler
+class MscClient extends AbstractProviderHandler
 {
     public function trackContainer(string $container): Response
     {
