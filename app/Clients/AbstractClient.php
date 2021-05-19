@@ -15,7 +15,7 @@ abstract class AbstractClient
     {
         return [
             'container' => $containerNumber,
-            'date'      => $date
+            'date'      => $date->format('Y-m-d')
         ];
     }
 }

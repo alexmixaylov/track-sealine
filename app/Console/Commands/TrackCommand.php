@@ -6,7 +6,6 @@ use App\Http\Controllers\TrackController;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 
-
 class TrackCommand extends Command
 {
     /**

@@ -34,7 +34,6 @@ class MscClient extends AbstractClient
             parse_str($query, $output);
 
             return parent::prepareResponse($output['ContainerNumber'], $date);
-
         } catch (Exception $e) {
             throw new Exception('Container not found');
         }
